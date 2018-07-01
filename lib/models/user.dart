@@ -13,9 +13,8 @@ class User extends FirestoreModel {
     @required this.lastName,
     @required this.status,
     @required this.groupReference,
-    @required this.usesSlack,
-    @required this.usesWhatsApp,
-    @required this.usesZoom,
+    @required this.services,
+    @required this.pictureUrl,
   }) : super(reference);
 
   static const String collectionName = "users";
@@ -24,9 +23,8 @@ class User extends FirestoreModel {
   final String lastName;
   final UserStatus.UserStatus status;
   final DocumentReference groupReference;
-  final bool usesSlack;
-  final bool usesWhatsApp;
-  final bool usesZoom;
+  final Map<String, bool> services;
+  final String pictureUrl;
 
   static Future<User> fromReference(DocumentReference reference) async {
     final DocumentSnapshot snapshot = await reference.get();
@@ -40,9 +38,8 @@ class User extends FirestoreModel {
       lastName: snapshot.data["last_name"],
       status: UserStatus.of(snapshot.data["status"]),
       groupReference: snapshot.data["group"],
-      usesSlack: snapshot.data["uses_slack"],
-      usesWhatsApp: snapshot.data["uses_whatsapp"],
-      usesZoom: snapshot.data["uses_zoom"],
+      services: Map.castFrom<dynamic, dynamic, String, bool>(snapshot.data["services"]),
+      pictureUrl: snapshot.data["picture_url"],
     );
   }
 
@@ -52,9 +49,7 @@ class User extends FirestoreModel {
         "last_name": lastName,
         "status": status.index,
         "group": groupReference,
-        "uses_slack": usesSlack,
-        "uses_whatsapp": usesWhatsApp,
-        "uses_zoom": usesZoom,
+        "services": services,
       };
 
   static Future<List<User>> fromQuerySnapshot(QuerySnapshot snapshot) async {
