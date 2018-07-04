@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 import 'package:pulseme/models/firestore_model.dart';
-import 'package:pulseme/models/group.dart';
-import 'package:pulseme/models/user_status.dart' as UserStatus;
+import 'package:pulseme/models/user/user_status.dart' as UserStatus;
 
 class User extends FirestoreModel {
   User({
@@ -59,4 +58,8 @@ class User extends FirestoreModel {
     }
     return result;
   }
+
+  //TODO: (@jeroen-meijer) Add 'sendMessage',
+  // 'changeStatus', 'enableService', 'disableService'
+  // and 'switchService' methods.
 }

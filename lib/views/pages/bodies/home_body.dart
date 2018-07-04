@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pulseme/models/group.dart';
-import 'package:pulseme/models/user.dart';
+import 'package:pulseme/models/user/user.dart';
 import 'package:pulseme/views/components/user_summary_view.dart';
-import 'package:pulseme/views/components/user_controls_view.dart';
 
 class HomeBody extends StatefulWidget {
   @override
@@ -28,12 +27,8 @@ class _HomeBodyState extends State<HomeBody> {
 
         return ListView(
           children: snapshot.data
-              .map<Widget>((user) => UserSummaryView(user))
-              .toList()
-                ..insert(
-                    0,
-                    UserControlsView(snapshot.data.firstWhere(
-                        (user) => user.firstName.toLowerCase() == "jeroen"))),
+              .map<Widget>((user) => UserSummaryView(user: user))
+              .toList(),
         );
       },
     );

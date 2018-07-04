@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 enum UserStatus {
   online,
   away,
@@ -21,4 +23,17 @@ String toString(UserStatus status) {
     default:
       return "Unknown Status";
   }
+}
+
+Color getColor(UserStatus status) {
+    switch (status) {
+      case UserStatus.away:
+        return Colors.yellow;
+      case UserStatus.doNotDisturb:
+        return Colors.red;
+      case UserStatus.offline:
+        return Colors.grey;
+      default:
+        return Colors.green;
+    }
 }
