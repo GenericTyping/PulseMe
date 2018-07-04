@@ -14,14 +14,27 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       backgroundColor: Colors.grey[900],
-      appBar: new AppBar(
+      appBar: AppBar(
         centerTitle: true,
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            new Text("Jeroen Meijer"),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text("Jeroen Meijer"),
+                Text(
+                  "GenericTyping",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13.0,
+                    color: Colors.grey,
+                  ),
+                )
+              ],
+            ),
             SizedBox(width: 10.0),
             Chip(
               label: Text("Online"),
