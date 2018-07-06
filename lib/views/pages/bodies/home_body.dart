@@ -16,11 +16,7 @@ class _HomeBodyState extends State<HomeBody> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<User>>(
-      stream: Firestore.instance
-          .collection(User.collectionName)
-          // .where("group", isEqualTo: groupDocRef)
-          .snapshots()
-          .asyncMap(User.fromQuerySnapshot),
+      stream: User.queryAll(),
       builder: (context, snapshot) {
         if (snapshot.hasError) return Text("Error!");
         if (snapshot.hasData == false) return Text("Loading!");

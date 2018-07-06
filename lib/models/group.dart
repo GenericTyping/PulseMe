@@ -47,4 +47,13 @@ class Group extends FirestoreModel {
     }
     return result;
   }
+
+  static Future<Group> byName(String groupName) async {
+    return Group.fromSnapshot((await Firestore.instance
+            .collection(Group.collectionName)
+            .where("name", isEqualTo: groupName)
+            .getDocuments())
+        .documents
+        .first);
+  }
 }

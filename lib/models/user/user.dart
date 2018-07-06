@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 import 'package:pulseme/models/firestore_model.dart';
+import 'package:pulseme/models/group.dart';
 import 'package:pulseme/models/user/user_status.dart' as UserStatus;
 
 class User extends FirestoreModel {
@@ -37,7 +38,8 @@ class User extends FirestoreModel {
       lastName: snapshot.data["last_name"],
       status: UserStatus.of(snapshot.data["status"]),
       groupReference: snapshot.data["group"],
-      services: Map.castFrom<dynamic, dynamic, String, bool>(snapshot.data["services"]),
+      services: Map
+          .castFrom<dynamic, dynamic, String, bool>(snapshot.data["services"]),
       pictureUrl: snapshot.data["picture_url"],
     );
   }
@@ -62,4 +64,25 @@ class User extends FirestoreModel {
   //TODO: (@jeroen-meijer) Add 'sendMessage',
   // 'changeStatus', 'enableService', 'disableService'
   // and 'switchService' methods.
+
+  static Stream<List<User>> queryFromGroup(Group group) {
+    return Firestore.instance
+        .collection(User.collectionName)
+        .where("group", isEqualTo: group.reference)
+        .snapshots()
+        .asyncMap<List<User>>(User.fromQuerySnapshot);
+  }
+
+  static Future<Stream<List<User>>> queryFromGroupByName(
+      String groupName) async {
+    final Group group = await Group.byName(groupName);
+    return User.queryFromGroup(group);
+  }
+
+  static Stream<List<User>> queryAll() {
+    return Firestore.instance
+        .collection(User.collectionName)
+        .snapshots()
+        .asyncMap(User.fromQuerySnapshot);
+  }
 }

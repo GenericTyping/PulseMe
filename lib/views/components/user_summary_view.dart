@@ -75,7 +75,12 @@ class _UserSummaryViewState extends State<UserSummaryView> {
                     fontSize: widget.textSize,
                   ),
                 ),
-                subtitle: UserSummaryStatusComponent(user: widget.user, textStyle: TextStyle(color: widget.statusTextColor),),
+                subtitle: UserSummaryStatusComponent(
+                  user: widget.user,
+                  textStyle: TextStyle(
+                    color: widget.statusTextColor,
+                  ),
+                ),
                 trailing: UserServicesView(
                   widget.user,
                   onWhatsAppTapped: () => debugPrint("onWhatsAppTapped"),
