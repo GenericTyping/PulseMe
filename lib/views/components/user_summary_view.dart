@@ -8,7 +8,6 @@ import 'package:pulseme/views/components/user_summary/user_summary_status_compon
 class UserSummaryView extends StatefulWidget {
   UserSummaryView({
     @required this.user,
-    this.isLoggedIn: false,
     this.textColor: Colors.white,
     this.textSize: 30.0,
     this.statusTextColor: Colors.white,
@@ -18,7 +17,6 @@ class UserSummaryView extends StatefulWidget {
   });
 
   final User user;
-  final bool isLoggedIn;
 
   final Color textColor;
   final double textSize;
@@ -26,18 +24,6 @@ class UserSummaryView extends StatefulWidget {
   final Color cardColor;
   final double backgroundOpacity;
   final double height;
-
-  factory UserSummaryView.defaultForLoggedIn(User user) {
-    return UserSummaryView(
-      user: user,
-      isLoggedIn: true,
-      height: 150.0,
-      cardColor: Colors.white,
-      textColor: Colors.blueGrey[900],
-      backgroundOpacity: 0.5,
-      statusTextColor: Colors.blueGrey[900],
-    );
-  }
 
   @override
   _UserSummaryViewState createState() => _UserSummaryViewState();

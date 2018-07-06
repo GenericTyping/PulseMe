@@ -18,6 +18,8 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
         centerTitle: true,
+        //NEW
+        //REWORK (EXTRACT)
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
