@@ -81,12 +81,7 @@ class _UserSummaryViewState extends State<UserSummaryView> {
                     color: widget.statusTextColor,
                   ),
                 ),
-                trailing: UserServicesView(
-                  widget.user,
-                  onWhatsAppTapped: () => debugPrint("onWhatsAppTapped"),
-                  onSlackTapped: () => debugPrint("onSlackTapped"),
-                  onZoomTapped: () => debugPrint("onZoomTapped"),
-                ),
+                trailing: UserServicesView(widget.user),
               ),
             ),
           ],
