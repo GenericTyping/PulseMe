@@ -16,6 +16,7 @@ class _HomeBodyState extends State<HomeBody> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<User>>(
+      //NEW
       stream: User.queryAll(),
       builder: (context, snapshot) {
         if (snapshot.hasError) return Text("Error!");
