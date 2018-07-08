@@ -2,7 +2,9 @@
 
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:pulseme/models/message.dart';
 import 'package:pulseme/models/user/user.dart';
 import 'package:pulseme/models/user/user_service_content.dart';
 
@@ -36,10 +38,21 @@ class _UserServiceButtonState extends State<UserServiceButton> {
         _serviceState = ServiceState.loading;
       });
 
-      await Future.delayed(Duration(seconds: 3));
+      bool sendSuccessfully = await Message(
+        source: Firestore.instance
+            .collection(User.collectionName)
+            .document("testuser"),
+        destination: widget.user.reference,
+        serviceName: _service.name.toUpperCase(),
+      ).send(
+        skipVerification: false,
+        verificationRetryInterval: Duration(milliseconds: 1500),
+        verificationRetryAmount: 10,
+      );
 
       setState(() {
-        _serviceState = ServiceState.success;
+        _serviceState =
+            sendSuccessfully ? ServiceState.success : ServiceState.failure;
       });
 
       await Future.delayed(Duration(seconds: 3));
@@ -66,6 +79,13 @@ class _UserServiceButtonState extends State<UserServiceButton> {
         return Icon(
           Icons.check,
           color: Colors.green,
+          size: size.shortestSide,
+        );
+
+      case ServiceState.failure:
+        return Icon(
+          Icons.error,
+          color: Colors.red,
           size: size.shortestSide,
         );
 

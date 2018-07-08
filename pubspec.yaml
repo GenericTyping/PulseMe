@@ -4,14 +4,12 @@ description: A new Flutter project.
 dependencies:
   flutter:
     sdk: flutter
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
-  cloud_firestore: "^0.7.2"
-  firebase_auth: "^0.5.10"
-  firebase_analytics: "^0.3.3"
+  cloud_firestore: "^0.7.3"
+  firebase_auth: "^0.5.11"
   firebase_messaging: "^1.0.3"
+  flutter_redux: "^0.5.2"
+  redux: "^3.0.0"
+  redux_thunk: "^0.2.0"
 
 dev_dependencies:
   flutter_test:
@@ -41,6 +39,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
    - assets/images/placeholder/profileplaceholder.png
+   - assets/sound/notification.mp3
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

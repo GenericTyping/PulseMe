@@ -20,6 +20,8 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         //NEW
         //REWORK (EXTRACT)
+        //TODO: (@jeroen-meijer) Change to Redux info.
+        //TODO: (@jeroen-meijer) Change user's group stuff to contain name of group in user document.
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[

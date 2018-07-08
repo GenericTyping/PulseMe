@@ -1,38 +1,52 @@
-import 'package:flutter/material.dart';
-import 'package:pulseme/views/pages/home_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pulseme/models/user/user.dart';
+import 'package:pulseme/redux/actions.dart';
+import 'package:pulseme/redux/app_state.dart';
+import 'package:pulseme/redux/reducer.dart';
+import 'package:pulseme/views/pages/home_page.dart';
+import 'package:redux/redux.dart';
+import 'package:redux_thunk/redux_thunk.dart';
 
 void main() {
   runApp(new PulseMeApp());
 }
 
 class PulseMeApp extends StatelessWidget {
-  PulseMeApp() {
-    final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
-    _firebaseMessaging.requestNotificationPermissions();
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) {
-        debugPrint("onMessage: $message");
-      },
-      onLaunch: (Map<String, dynamic> message) {
-        debugPrint("onLaunch: $message");
-      },
-      onResume: (Map<String, dynamic> message) {
-        debugPrint("onResume: $message");
-      },
-    );
+  final Store<AppState> store = new Store<AppState>(
+    reducer,
+    middleware: [thunkMiddleware],
+  );
 
-    _firebaseMessaging.getToken().then((token) => debugPrint("Token: $token"));
+  PulseMeApp() {
+    store.dispatch(InitState());
+    store.dispatch(SetUserDocumentReference(Firestore.instance
+        .collection(User.collectionName)
+        .document("testuser")));
+    store.dispatch(store.state.thunk.startUserObserver);
   }
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'PulseMe',
-      theme: new ThemeData(
-        primarySwatch: Colors.blueGrey,
+    return StoreProvider<AppState>(
+      store: store,
+      child: new MaterialApp(
+        title: 'PulseMe',
+        theme: new ThemeData(
+          primarySwatch: Colors.blueGrey,
+        ),
+        home: StoreConnector<AppState, User>(
+          converter: (store) => store.state.user,
+          builder: (context, user) => (user == null)
+              ? Scaffold(
+                  backgroundColor: Colors.grey[900],
+                  body: Center(child: CircularProgressIndicator()),
+                )
+              : new HomePage(),
+        ),
       ),
-      home: new HomePage(),
     );
   }
 }

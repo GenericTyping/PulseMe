@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 import 'package:pulseme/models/firestore_model.dart';
 import 'package:pulseme/models/group.dart';
+import 'package:pulseme/models/message.dart';
 import 'package:pulseme/models/user/user_status.dart' as UserStatus;
 
 class User extends FirestoreModel {
@@ -84,5 +85,18 @@ class User extends FirestoreModel {
         .collection(User.collectionName)
         .snapshots()
         .asyncMap(User.fromQuerySnapshot);
+  }
+
+  Future<bool> sendMessage({
+    @required User destination,
+    @required String serviceName,
+    bool skipVerification: false,
+  }) async {
+    final Message newMessage = Message(
+      source: reference,
+      destination: destination.reference,
+      serviceName: serviceName,
+    );
+    return await newMessage.send(skipVerification: skipVerification);
   }
 }

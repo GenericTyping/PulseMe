@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:pulseme/models/user/user_service_content.dart';
 import 'package:pulseme/models/user/user.dart';
-import 'package:pulseme/views/components/user_summary/user_service_button.dart';
+import 'package:pulseme/views/components/user_service_button.dart';
 
 class UserServicesView extends StatefulWidget {
   UserServicesView(this.user);
