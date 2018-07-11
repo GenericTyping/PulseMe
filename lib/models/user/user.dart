@@ -14,6 +14,7 @@ class User extends FirestoreModel {
     @required this.lastName,
     @required this.status,
     @required this.groupReference,
+    @required this.groupName,
     @required this.services,
     @required this.pictureUrl,
   }) : super(reference);
@@ -22,8 +23,12 @@ class User extends FirestoreModel {
 
   final String firstName;
   final String lastName;
+  //NEW
+  String get fullName => "$firstName $lastName";
   final UserStatus.UserStatus status;
   final DocumentReference groupReference;
+  //NEW
+  final String groupName;
   final Map<String, bool> services;
   final String pictureUrl;
 
@@ -38,7 +43,12 @@ class User extends FirestoreModel {
       firstName: snapshot.data["first_name"],
       lastName: snapshot.data["last_name"],
       status: UserStatus.of(snapshot.data["status"]),
-      groupReference: snapshot.data["group"],
+      //NEW
+      groupReference: (Map.castFrom<dynamic, dynamic, String, dynamic>(
+          snapshot.data["group"]))["ref"],
+      //NEW
+      groupName: (Map.castFrom<dynamic, dynamic, String, dynamic>(
+          snapshot.data["group"]))["name"],
       services: Map
           .castFrom<dynamic, dynamic, String, bool>(snapshot.data["services"]),
       pictureUrl: snapshot.data["picture_url"],
@@ -50,7 +60,10 @@ class User extends FirestoreModel {
         "first_name": firstName,
         "last_name": lastName,
         "status": status.index,
-        "group": groupReference,
+        "group": {
+          "ref": groupReference,
+          "name": groupName,
+        },
         "services": services,
       };
 

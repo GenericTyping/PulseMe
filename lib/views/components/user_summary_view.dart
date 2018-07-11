@@ -61,11 +61,22 @@ class _UserSummaryViewState extends State<UserSummaryView> {
                     fontSize: widget.textSize,
                   ),
                 ),
-                subtitle: UserSummaryStatusComponent(
-                  user: widget.user,
-                  textStyle: TextStyle(
-                    color: widget.statusTextColor,
-                  ),
+                subtitle: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    UserSummaryStatusComponent(
+                      user: widget.user,
+                      textStyle: TextStyle(
+                        color: widget.statusTextColor,
+                      ),
+                    ),
+                    //NEW
+                    Text(
+                      widget.user.groupName,
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ],
                 ),
                 trailing: UserServicesView(widget.user),
               ),

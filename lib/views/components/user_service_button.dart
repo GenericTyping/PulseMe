@@ -30,9 +30,9 @@ class _UserServiceButtonState extends State<UserServiceButton> {
 
   ServiceState _serviceState = ServiceState.idle;
 
-  onTapped() async {
+  _onTapped(BuildContext context) async {
     if (_service.enabled) {
-      debugPrint("OnTapped (${_service.name})");
+      debugPrint("_onTapped: ${widget.user} (${_service.name})");
 
       setState(() {
         _serviceState = ServiceState.loading;
@@ -103,7 +103,7 @@ class _UserServiceButtonState extends State<UserServiceButton> {
       opacity: _service.enabled ? 1.0 : 0.6,
       child: FlatButton(
         padding: const EdgeInsets.all(0.0),
-        onPressed: () => onTapped(),
+        onPressed: () => _onTapped(context),
         color: Colors.white,
         child: Row(
           mainAxisSize: MainAxisSize.min,

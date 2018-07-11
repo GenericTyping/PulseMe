@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pulseme/models/user/user.dart';
+import 'package:pulseme/redux/app_state.dart';
 import 'package:pulseme/views/pages/bodies/home_body.dart';
 import 'package:pulseme/models/user/user_status.dart' as UserStatus;
 
@@ -22,36 +25,38 @@ class _HomePageState extends State<HomePage> {
         //REWORK (EXTRACT)
         //TODO: (@jeroen-meijer) Change to Redux info.
         //TODO: (@jeroen-meijer) Change user's group stuff to contain name of group in user document.
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text("Jeroen Meijer"),
-                Text(
-                  "GenericTyping",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13.0,
-                    color: Colors.grey,
+        title: StoreConnector<AppState, User>(
+          converter: (store) => store.state.user,
+          builder: (context, user) => Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(user.fullName),
+                      Text(
+                        user.groupName,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13.0,
+                          color: Colors.grey,
+                        ),
+                      )
+                    ],
                   ),
-                )
-              ],
-            ),
-            SizedBox(width: 10.0),
-            Chip(
-              label: Text("Online"),
-              avatar: CircleAvatar(
-                backgroundColor:
-                    UserStatus.getColor(UserStatus.UserStatus.online),
-                radius: 6.0,
+                  SizedBox(width: 10.0),
+                  Chip(
+                    label: Text(UserStatus.toString(user.status)),
+                    avatar: CircleAvatar(
+                      backgroundColor: UserStatus.getColor(user.status),
+                      radius: 6.0,
+                    ),
+                    deleteIcon: Icon(Icons.arrow_drop_down),
+                    onDeleted: () => debugPrint("Select status."),
+                    deleteButtonTooltipMessage: "Select status.",
+                  ),
+                ],
               ),
-              deleteIcon: Icon(Icons.arrow_drop_down),
-              onDeleted: () => debugPrint("Select status."),
-              deleteButtonTooltipMessage: "Select status.",
-            ),
-          ],
         ),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
